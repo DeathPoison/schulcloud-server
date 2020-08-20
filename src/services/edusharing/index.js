@@ -1,13 +1,12 @@
-/* eslint-disable max-classes-per-file */
 const { static: staticContent } = require('@feathersjs/express');
 const path = require('path');
 
 const hooks = require('./hooks');
 const merlinHooks = require('./hooks/merlin.hooks');
-const EduSharingConnector = require('./logic/connector');
-const MerlinTokenGenerator = require('./logic/MerlinTokenGenerator');
+const EduSharingConnector = require('./services/EduSharingConnector');
+const MerlinTokenGenerator = require('./services/MerlinTokenGenerator');
 
-class EduSearch {
+class EduSharing {
 	find(data) {
 		return EduSharingConnector.FIND(data);
 	}
@@ -31,12 +30,12 @@ module.exports = (app) => {
 	const merlinService = app.service(merlinRoute);
 	merlinService.hooks(merlinHooks);
 
-	const eduRoute = '/edu-sharing';
-	app.use(eduRoute, new EduSearch(), (req, res) => {
+	const eduSharingRoute = '/edu-sharing';
+	app.use(eduSharingRoute, new EduSharing(), (req, res) => {
 		res.send(res.data);
 	});
-	const eduService = app.service(eduRoute);
-	eduService.hooks(hooks);
+	const eduSharingService = app.service(eduSharingRoute);
+	eduSharingService.hooks(hooks);
 
-	app.use(`${eduRoute}/api`, staticContent(path.join(__dirname, '/docs')));
+	app.use(`${eduSharingRoute}/api`, staticContent(path.join(__dirname, '/docs')));
 };
