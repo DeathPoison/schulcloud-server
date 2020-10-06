@@ -25,12 +25,8 @@ const eduSharingCookieValidity = 3600000; // 1h
 let eduSharingCookieExpires = new Date();
 
 class EduSharingConnector {
-	constructor() {
-		if (EduSharingConnector.instance) {
-			return EduSharingConnector.instance;
-		}
-
-		EduSharingConnector.instance = this;
+	setup(app) {
+		this.app = app;
 	}
 
 	// gets cookie (JSESSION) for authentication when fetching images
@@ -195,13 +191,6 @@ class EduSharingConnector {
 			return Promise.reject(err);
 		}
 	}
-
-	static get Instance() {
-		if (!EduSharingConnector.instance) {
-			return new EduSharingConnector();
-		}
-		return EduSharingConnector.instance;
-	}
 }
 
-module.exports = EduSharingConnector.Instance;
+module.exports = new EduSharingConnector();
