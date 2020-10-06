@@ -14,4 +14,4 @@ class EduSharingResponse {
 	}
 }
 
-module.exports = EduSharingResponse;
+module.exports = new EduSharingResponse();
